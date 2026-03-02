@@ -1,31 +1,55 @@
-# Hardcoded values for the season and plant type
-season = "summer"  # TODO: Replace with input() to allow user interaction.
-plant_type = "flower"  # TODO: Replace with input() to allow user interaction.
+"""
+Garden Advice App (Console)
 
-# Variable to hold gardening advice
-advice = ""
+Issue #1:
+- user input instead of hardcoded values
+- advice stored in dictionaries
+- functions for clean, modular code
+"""
 
-# Determine advice based on the season
-if season == "summer":
-    advice += "Water your plants regularly and provide some shade.\n"
-elif season == "winter":
-    advice += "Protect your plants from frost with covers.\n"
-else:
-    advice += "No advice for this season.\n"
+from typing import Dict
 
-# Determine advice based on the plant type
-if plant_type == "flower":
-    advice += "Use fertiliser to encourage blooms."
-elif plant_type == "vegetable":
-    advice += "Keep an eye out for pests!"
-else:
-    advice += "No advice for this type of plant."
+SEASON_ADVICE: Dict[str, str] = {
+    "summer": "Water your plants regularly and provide some shade.",
+    "winter": "Protect your plants from frost with covers.",
+    "autumn": "Clear fallen leaves and prepare soil with compost.",
+    "spring": "Start planting and watch for early pests.",
+}
 
-# Print the generated advice
-print(advice)
+PLANT_ADVICE: Dict[str, str] = {
+    "flower": "Use fertiliser to encourage blooms.",
+    "vegetable": "Keep an eye out for pests and ensure consistent watering.",
+    "herb": "Harvest regularly to encourage growth.",
+    "shrub": "Prune lightly to maintain shape and remove dead branches.",
+}
 
-# TODO: Examples of possible features to add:
-# - Add detailed comments explaining each block of code.
-# - Refactor the code into functions for better readability and modularity.
-# - Store advice in a dictionary for multiple plants and seasons.
-# - Recommend plants based on the entered season.
+
+def normalise(text: str) -> str:
+    """Lowercase and strip whitespace for consistent matching."""
+    return text.strip().lower()
+
+
+def get_input(prompt: str) -> str:
+    """Get input from the user and normalise it."""
+    return normalise(input(prompt))
+
+
+def give_advice(season: str, plant_type: str) -> str:
+    """Return advice for the given season and plant type."""
+    season_msg = SEASON_ADVICE.get(season, "No advice for this season.")
+    plant_msg = PLANT_ADVICE.get(plant_type, "No advice for this type of plant.")
+    return f"{season_msg}\n{plant_msg}"
+
+
+def main() -> None:
+    """Main program flow."""
+    print("🌱 Garden Advice App")
+    season = get_input("Enter the season (summer/winter/autumn/spring): ")
+    plant_type = get_input("Enter the plant type (flower/vegetable/herb/shrub): ")
+
+    print("\n--- Your Gardening Advice ---")
+    print(give_advice(season, plant_type))
+
+
+if __name__ == "__main__":
+    main()
